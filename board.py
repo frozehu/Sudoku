@@ -36,9 +36,10 @@ class Board:
         if self.selected_cell:
             self.cells[self.selected_cell[0]][self.selected_cell[1]].clear()
     def sketch(self, value):
-        pass
+        if self.selected_cell:
+            self.cells[self.selected_cell[0]][self.selected_cell[1]].set_sketched_value(value)
     def place_number(self, value):
-        pass
+        self.cells[self.selected_cell[0]][self.selected_cell[1]].set_sketched_value(value)
     def reset_to_original(self):
         pass
     def is_full(self):
