@@ -1,5 +1,5 @@
 import pygame, sys
-from cell import Cell
+from Cell import *
 
 pygame.init()
 screen = pygame.display.set_mode((750, 750))
@@ -50,7 +50,11 @@ class Board:
     def update_board(self):
         pass
     def find_empty(self):
-        pass
-    def check_board(self):
-        pass
+        for row in range(9):
+            for col in range(9):
+                if self.cells[row][col].value == 0:
+                    return (row, col)
+        return False
+    # def check_board(self):
+    #     pass
 
