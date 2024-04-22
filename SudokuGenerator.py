@@ -2,17 +2,16 @@ import pygame
 import random
 
 # Constants
-Width = 540
-Height = 540
+Width = 780
+Height = 780
 Row_length = 9
-Removed_cells = 30
 Cell_size = Width // Row_length
 White = (255, 255, 255)
 Black = (0, 0, 0)
 Gray = (200, 200, 200)
 Fps = 60
-
 class SudokuGenerator:
+    Removed_cells = 30
     def __init__(self):
         self.board = [[0] * Row_length for _ in range(Row_length)]
 
@@ -82,7 +81,7 @@ class SudokuGenerator:
         self.fill_remaining(0, 3)
 
     def remove_cells(self):
-        cells_to_remove = Removed_cells
+        cells_to_remove = self.Removed_cells
         while cells_to_remove > 0:
             row = random.randint(0, Row_length - 1)
             col = random.randint(0, Row_length - 1)
