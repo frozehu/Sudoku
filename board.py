@@ -11,7 +11,9 @@ class Board:
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
-        self.cells = [[Cell(row, col) for col in range(9)] for row in range(9)]
+        # Initially was giving a not enough parameters error, add 0 and screen for it 
+        #to be able to run not sure if its correct
+        self.cells = [[Cell(None, row, col, screen) for col in range(9)] for row in range(9)]
         self.selected_cell = None
 
     def draw(self):
@@ -19,10 +21,11 @@ class Board:
         box_height = self.height // 9
         for i in range(10):
             line_width = 5 if i % 3 > 0 else 10
+            #changed lines to go from 730 to 760 so that boxes werent uneven
             pygame.draw.line(screen, pygame.Color("black"), pygame.Vector2((i * box_height) + 15, 15),
-                             pygame.Vector2((i * box_height) + 15, 730), line_width)
+                             pygame.Vector2((i * box_height) + 15, 760), line_width)
             pygame.draw.line(screen, pygame.Color("black"), pygame.Vector2(15, (i * box_width) + 15),
-                             pygame.Vector2(730, (i * box_width) + 15), line_width)
+                             pygame.Vector2(760, (i * box_width) + 15), line_width)
     def select(self, row, col):
         self.selected_cell = (row, col)
     def click(self, x, y):

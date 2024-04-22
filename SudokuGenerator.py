@@ -90,44 +90,46 @@ class SudokuGenerator:
                 self.board[row][col] = 0
                 cells_to_remove -= 1
 
-# Initialize Pygame
-pygame.init()
-screen = pygame.display.set_mode((Width, Height))
-pygame.display.set_caption("Sudoku")
+#put under a definition so that when imported in Sudoku file it doesn't run immediately               
+def game():
+    # Initialize Pygame
+    pygame.init()
+    screen = pygame.display.set_mode((Width, Height))
+    pygame.display.set_caption("Sudoku")
 
-# Create Sudoku Generator
-sudoku_generator = SudokuGenerator()
-sudoku_generator.fill_values()
-sudoku_generator.remove_cells()
-sudoku_board = sudoku_generator.get_board()
+    # Create Sudoku Generator
+    sudoku_generator = SudokuGenerator()
+    sudoku_generator.fill_values()
+    sudoku_generator.remove_cells()
+    sudoku_board = sudoku_generator.get_board()
 
-# Main loop
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    # Main loop
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-    # Draw the Sudoku board
-    screen.fill(White)
-    for i in range(Row_length + 1):
-        if i % 3 == 0:
-            pygame.draw.line(screen, Black, (0, i * Cell_size), (Width, i * Cell_size), 4)
-            pygame.draw.line(screen, Black, (i * Cell_size, 0), (i * Cell_size, Height), 4)
-        else:
-            pygame.draw.line(screen, Black, (0, i * Cell_size), (Width, i * Cell_size), 2)
-            pygame.draw.line(screen, Black, (i * Cell_size, 0), (i * Cell_size, Height), 2)
+        # Draw the Sudoku board
+        screen.fill(White)
+        for i in range(Row_length + 1):
+            if i % 3 == 0:
+                pygame.draw.line(screen, Black, (0, i * Cell_size), (Width, i * Cell_size), 4)
+                pygame.draw.line(screen, Black, (i * Cell_size, 0), (i * Cell_size, Height), 4)
+            else:
+                pygame.draw.line(screen, Black, (0, i * Cell_size), (Width, i * Cell_size), 2)
+                pygame.draw.line(screen, Black, (i * Cell_size, 0), (i * Cell_size, Height), 2)
 
-    # Draw numbers on the board
-    font = pygame.font.Font(None, 36)
-    for i in range(Row_length):
-        for j in range(Row_length):
-            if sudoku_board[i][j] != 0:
-                text = font.render(str(sudoku_board[i][j]), True, Black)
-                text_rect = text.get_rect(center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
-                screen.blit(text, text_rect)
+        # Draw numbers on the board
+        font = pygame.font.Font(None, 36)
+        for i in range(Row_length):
+            for j in range(Row_length):
+                if sudoku_board[i][j] != 0:
+                    text = font.render(str(sudoku_board[i][j]), True, Black)
+                    text_rect = text.get_rect(center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
+                    screen.blit(text, text_rect)
 
-    pygame.display.flip()
-    pygame.time.Clock().tick(Fps)
+        pygame.display.flip()
+        pygame.time.Clock().tick(Fps)
 
-pygame.quit()
+    pygame.quit()
