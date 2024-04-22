@@ -40,7 +40,7 @@ def game():
         easyrect = easy.get_rect(topleft = (230, 490))
         pygame.draw.rect(screen, (255, 102, 0), easyrect)
         screen.blit(easy, easyrect)
-
+        
 
         # Game mode button(Medium)
         medfont = pygame.font.Font(None, 36)
