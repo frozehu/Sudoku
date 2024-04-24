@@ -15,11 +15,7 @@ def background():
     board = Board(750, 750, screen, "easy")
     board.draw()
 
-def main():
-    mouse = pygame.mouse.get_pos()
-    running = True
-    screen.fill(White)
-
+def start_screen():
     # background image
     bg = pygame.image.load("sudoimage.jpg")
     bg = pygame.transform.scale(bg, (780, 780))
@@ -57,6 +53,20 @@ def main():
     hardrect = hard.get_rect(topleft = (500, 490))
     pygame.draw.rect(screen, (255, 102, 0), hardrect)
     screen.blit(hard, hardrect)
+
+    return [easyrect, medrect, hardrect]
+
+def main():
+    mouse = pygame.mouse.get_pos()
+    running = True
+    screen.fill(White)
+    start_screen()
+    easyrect = start_screen()[0]
+    medrect = start_screen()[1]
+    hardrect = start_screen()[2]
+
+
+    
 
     while running:
         #Main Loop
