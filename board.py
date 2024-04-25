@@ -27,14 +27,23 @@ class Board:
             pygame.draw.line(screen, pygame.Color("black"), pygame.Vector2(15, (i * box_width) + 15),
                              pygame.Vector2(760, (i * box_width) + 15), line_width)
     def select(self, row, col):
+        # self.selected_cell = (row, col)
+        if self.selected_cell:
+            self.cells[self.selected_cell[0]][self.selected_cell[1]].selected = False
         self.selected_cell = (row, col)
+        self.cells[row][col].selected = True
+        self.cells[row][col].draw()
     def click(self, x, y):
-        row = y // (self.height // 9)
-        col = x // (self.width // 9)
-        if 0 <= row < 9 and 0 <= col < 9:
-            return (row, col)
-        else:
-            return None
+        # row = y // (self.height // 9)
+        # col = x // (self.width // 9)
+        # if 0 <= row < 9 and 0 <= col < 9:
+        #     return (row, col)
+        # else:
+        #     return None
+        if x < self.width and y < self.height:
+            self.selected_cell = (y// (self.height // 9), x // (self.width // 9))
+            return self.selected_cell
+        return None
     def clear(self):
         if self.selected_cell:
             self.cells[self.selected_cell[0]][self.selected_cell[1]].clear()
@@ -43,6 +52,7 @@ class Board:
             self.cells[self.selected_cell[0]][self.selected_cell[1]].set_sketched_value(value)
     def place_number(self, value):
         self.cells[self.selected_cell[0]][self.selected_cell[1]].set_sketched_value(value)
+        pass
     def reset_to_original(self):
         pass
     def is_full(self):
