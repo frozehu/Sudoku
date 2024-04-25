@@ -1,6 +1,7 @@
 import pygame, sys
 from board import *
 from SudokuGenerator import *
+from Cell import *
 
 pygame.init()
 screen = pygame.display.set_mode((780, 880))
@@ -27,6 +28,54 @@ grid = [
 # Global variables to track difficulty selection
 difficulty_selected = False
 game_started = False
+
+class RectCell(pygame.Rect):
+    '''
+    A class built upon the pygame Rect class used to represent individual cells in the game.
+    This class has a few extra attributes not contained within the base Rect class.
+    '''
+
+    def __init__(self, left, top, row, col):
+        super().__init__(left, top, 81, 81)
+        self.row = row
+        self.col = col
+
+cell_size = 81
+minor_grid_size = 1
+major_grid_size = 3
+buffer = 18
+
+def create_cells():
+    '''Creates all 81 cells with RectCell class.'''
+    cells = [[] for _ in range(9)]
+
+    row = 0
+    col = 0
+    left = 18
+    top = 18
+
+    while row < 9:
+        while col < 9:
+            cells[row].append(RectCell(left, top, row, col))
+
+            # Update attributes for next RectCell
+            left += cell_size + minor_grid_size
+            if col != 0 and (col + 1) % 3 == 0:
+                left = left + major_grid_size - minor_grid_size
+            col += 1
+
+        # Update attributes for next RectCell
+        top += cell_size + minor_grid_size
+        if row != 0 and (row + 1) % 3 == 0:
+            top = top + major_grid_size - minor_grid_size
+        left = buffer + major_grid_size
+        col = 0
+        row += 1
+
+    return cells
+
+cells = create_cells()
+
 
 
 def background(difficulty):
@@ -167,6 +216,7 @@ def main():
                 running = False
 
 
+
             if game_started:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     position = pygame.mouse.get_pos()
@@ -178,10 +228,39 @@ def main():
                         board.select(index[0], index[1])
                         cell = Cell(0, index[0], index[1], screen)
                         cell.selected = True
-                        cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+                        cell.draw()
+
+                        #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
                     except:
                         pass
-                            
+                if event.type == pygame.KEYDOWN:
+                    if event.type == pygame.KEYDOWN:
+                        if (event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3 or
+                                event.key == pygame.K_4 or event.key == pygame.K_5 or event.key == pygame.K_6 or
+                                event.key == pygame.K_7 or event.key == pygame.K_8 or event.key == pygame.K_9):
+
+                            # Determine the value pressed (from 1 to 9)
+                            value = event.key - pygame.K_1 + 1
+
+                            # Get the mouse position and convert it to board cell indices
+                            position = pygame.mouse.get_pos()
+                            board = Board(780, 780, screen, selected_difficulty)
+                            index = board.click(position[0], position[1])
+
+                            # Check if the clicked cell is valid
+                            if index:
+                                # Update the board with the pressed number (if cell is valid)
+                                sudoku_board = SudokuGenerator().get_board()
+                                sudoku_board[index[0]][index[1]] = value
+
+                                # Render and blit the updated number onto the cell
+                                font = pygame.font.Font(None, 36)
+                                text_surface = font.render(str(value), True, Black)
+                                text_rect = text_surface.get_rect(center=(
+                                index[1] * Cell_size + Cell_size // 2, index[0] * Cell_size + Cell_size // 2))
+                                screen.blit(text_surface, text_rect)
+
+                                pygame.display.flip()
 
             # Mouse Button event for Easy Medium and Hard Modes
             if event.type == pygame.MOUSEBUTTONDOWN:

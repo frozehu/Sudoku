@@ -17,6 +17,10 @@ class Cell:
         #pass???
 
     def draw(self):
+        x = self.col * self.cell_size
+        y = self.row * self.cell_size
+        rect = pygame.Rect(x +15, y+15, 82, 82)
+        # if user selects a cell, outline in red
         y = self.row * self.cell_size
         x = self.col * self.cell_size
         rect = pygame.Rect(x + 15, y + 15, 82, 82)
