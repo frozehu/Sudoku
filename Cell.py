@@ -7,6 +7,7 @@ class Cell:
         self.screen = screen
         self.cell_size = 81
         self.selected = False
+        self.font = pygame.font
 
     def set_cell_value(self, value):
         self.value = value
@@ -20,6 +21,10 @@ class Cell:
         y = self.row * self.cell_size
         rect = pygame.Rect(x +15, y+15, 82, 82)
         # if user selects a cell, outline in red
+        y = self.row * self.cell_size
+        x = self.col * self.cell_size
+        rect = pygame.Rect(x + 15, y + 15, 82, 82)
+        #if user selects a cell, outline in red
         if self.selected:
             pygame.draw.rect(self.screen, (255, 0, 0), rect, 3)
         else:
