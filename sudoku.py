@@ -5,6 +5,24 @@ from SudokuGenerator import *
 pygame.init()
 screen = pygame.display.set_mode((780, 880))
 pygame.display.set_caption("Sudoku")
+SCREEN_SIZE = 600
+GRID_SIZE = 9
+GRID_BOX_SIZE = SCREEN_SIZE // GRID_SIZE
+pygame.init()
+pygame.font.init()
+GAME_FONT = pygame.font.Font(None, 36)
+
+grid = [
+    [5, 3, 0, 0, 7, 0, 0, 0, 0],
+    [6, 0, 0, 1, 9, 5, 0, 0, 0],
+    [0, 9, 8, 0, 0, 0, 0, 6, 0],
+    [8, 0, 0, 0, 6, 0, 0, 0, 3],
+    [4, 0, 0, 8, 0, 3, 0, 0, 1],
+    [7, 0, 0, 0, 2, 0, 0, 0, 6],
+    [0, 6, 0, 0, 0, 0, 2, 8, 0],
+    [0, 0, 0, 4, 1, 9, 0, 0, 5],
+    [0, 0, 0, 0, 8, 0, 0, 7, 9]
+]
 
 # Global variables to track difficulty selection
 difficulty_selected = False
@@ -81,6 +99,43 @@ def start_screen():
     # Only show additional buttons if a difficulty has been selected
 
     return [easyrect, medrect, hardrect]
+
+def select_cell(pos):
+    global selected_cell
+    x, y = pos
+    row = y // GRID_BOX_SIZE
+    col = x // GRID_BOX_SIZE
+    selected_cell = (row, col) if grid[row][col] == 0 else None
+
+def place_number(key):
+    if selected_cell and 49 <= key <= 57:  # Key codes for 1-9
+        num = key - 48  
+        row, col = selected_cell
+        if valid_move(row, col, num):
+            grid[row][col] = num
+            check_game_over()
+
+def valid_move(row, col, number):
+    # Check row
+    if number in grid[row]:
+        return False
+    # Check column
+    for r in range(GRID_SIZE):
+        if grid[r][col] == number:
+            return False
+    # Check 3x3 square
+    start_row, start_col = 3 * (row // 3), 3 * (col // 3)
+    for r in range(start_row, start_row + 3):
+        for c in range(start_col, start_col + 3):
+            if grid[r][c] == number:
+                return False
+    return True
+
+def check_game_over():
+    for row in range(GRID_SIZE):
+        for col in range(GRID_SIZE):
+            if grid[row][col] == 0 or not valid_move(row, col, grid[row][col]):
+                return False
 
 
 def main():
