@@ -108,7 +108,7 @@ def select_cell(pos):
     selected_cell = (row, col) if grid[row][col] == 0 else None
 
 def place_number(key):
-    if selected_cell and 49 <= key <= 57:  # Key codes for 1-9
+    if selected_cell and 49 <= key <= 57:  #Key codes for 1-9
         num = key - 48  
         row, col = selected_cell
         if valid_move(row, col, num):
