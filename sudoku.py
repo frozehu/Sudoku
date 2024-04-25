@@ -1,6 +1,7 @@
 import pygame, sys
 from board import *
 from SudokuGenerator import *
+from Cell import *
 
 pygame.init()
 screen = pygame.display.set_mode((780, 880))
@@ -112,6 +113,7 @@ def main():
                 running = False
 
 
+
             if game_started:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     position = pygame.mouse.get_pos()
@@ -123,10 +125,51 @@ def main():
                         board.select(index[0], index[1])
                         cell = Cell(0, index[0], index[1], screen)
                         cell.selected = True
-                        cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+                        cell.draw()
+
+                        #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
                     except:
                         pass
-                            
+                if event.type == pygame.KEYDOWN:
+                    # if event.key == pygame.K_1:
+                    #     position = pygame.mouse.get_pos()
+                    #     board = Board(780, 780, screen, selected_difficulty)
+                    #     index = board.click(position[0], position[1])
+                    #     value = pygame.K_1 - 48
+                    #     value2 = font.render(str(value), True, (0, 0, 0))
+                    #     print(value)
+                    #     screen.blit(value2, index)
+                    if event.type == pygame.KEYDOWN:
+                        if (event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3 or
+                                event.key == pygame.K_4 or event.key == pygame.K_5 or event.key == pygame.K_6 or
+                                event.key == pygame.K_7 or event.key == pygame.K_8 or event.key == pygame.K_9):
+
+                            # Determine the value pressed (from 1 to 9)
+                            value = event.key - pygame.K_1 + 1
+
+                            # Get the mouse position and convert it to board cell indices
+                            position = pygame.mouse.get_pos()
+                            board = Board(780, 780, screen, selected_difficulty)
+                            index = board.click(position[0], position[1])
+
+                            # Check if the clicked cell is valid
+                            if index:
+                                # Update the board with the pressed number (if cell is valid)
+                                sudoku_board = SudokuGenerator().get_board()
+                                sudoku_board[index[0]][index[1]] = value
+
+                                # Clear the cell area to redraw the updated number
+                                pygame.draw.rect(screen, White,
+                                                 (index[1] * Cell_size, index[0] * Cell_size, Cell_size, Cell_size))
+
+                                # Render and blit the updated number onto the cell
+                                font = pygame.font.Font(None, 36)
+                                text_surface = font.render(str(value), True, Black)
+                                text_rect = text_surface.get_rect(center=(
+                                index[1] * Cell_size + Cell_size // 2, index[0] * Cell_size + Cell_size // 2))
+                                screen.blit(text_surface, text_rect)
+
+                                pygame.display.flip()
 
             # Mouse Button event for Easy Medium and Hard Modes
             if event.type == pygame.MOUSEBUTTONDOWN:
