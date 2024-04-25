@@ -10,6 +10,54 @@ pygame.display.set_caption("Sudoku")
 difficulty_selected = False
 game_started = False
 
+class RectCell(pygame.Rect):
+    '''
+    A class built upon the pygame Rect class used to represent individual cells in the game.
+    This class has a few extra attributes not contained within the base Rect class.
+    '''
+
+    def __init__(self, left, top, row, col):
+        super().__init__(left, top, 81, 81)
+        self.row = row
+        self.col = col
+
+cell_size = 81
+minor_grid_size = 1
+major_grid_size = 3
+buffer = 18
+
+def create_cells():
+    '''Creates all 81 cells with RectCell class.'''
+    cells = [[] for _ in range(9)]
+
+    row = 0
+    col = 0
+    left = 18
+    top = 18
+
+    while row < 9:
+        while col < 9:
+            cells[row].append(RectCell(left, top, row, col))
+
+            # Update attributes for next RectCell
+            left += cell_size + minor_grid_size
+            if col != 0 and (col + 1) % 3 == 0:
+                left = left + major_grid_size - minor_grid_size
+            col += 1
+
+        # Update attributes for next RectCell
+        top += cell_size + minor_grid_size
+        if row != 0 and (row + 1) % 3 == 0:
+            top = top + major_grid_size - minor_grid_size
+        left = buffer + major_grid_size
+        col = 0
+        row += 1
+
+    return cells
+
+cells = create_cells()
+
+
 
 def background(difficulty):
     screen.fill(White)
