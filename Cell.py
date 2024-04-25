@@ -1,5 +1,6 @@
 import pygame
 class Cell:
+
     def __init__(self, value, row, col, screen):
         self.value = value
         self.row = row
@@ -9,6 +10,10 @@ class Cell:
         self.selected = False
         self.font = pygame.font
 
+        self.y = self.row * self.cell_size
+        self.x = self.col * self.cell_size
+
+
     def set_cell_value(self, value):
         self.value = value
 
@@ -17,9 +22,7 @@ class Cell:
         #pass???
 
     def draw(self):
-        y = self.row * self.cell_size
-        x = self.col * self.cell_size
-        rect = pygame.Rect(x + 15, y + 15, 82, 82)
+        rect = pygame.Rect(self.x + 18, self.y + 18, 82, 82)
         #if user selects a cell, outline in red
         if self.selected:
             pygame.draw.rect(self.screen, (255, 0, 0), rect, 3)

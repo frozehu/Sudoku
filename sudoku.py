@@ -165,13 +165,66 @@ def main():
                     position = pygame.mouse.get_pos()
                     board = Board(780, 780, screen, selected_difficulty)
                     index = board.click(position[0], position[1])
+                    print(index)
 
                     #try function checking if click is in the parameters of the board, if not passes
                     try:
-                        board.select(index[0], index[1])
-                        cell = Cell(0, index[0], index[1], screen)
-                        cell.selected = True
-                        cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+                        if index[1] in [3,4,5]:
+                            board.select(index[0], index[1])
+                            cell = Cell(0, index[0], index[1], screen)
+                            if index[0] in [3, 4, 5]:
+                                cell.y += 6
+                                cell.x += 6
+                                cell.selected = True
+                                cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+
+                            elif index[0] in [6,7,8]:
+                                cell.y += 12
+                                cell.x += 6
+                                cell.selected = True
+                                cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+
+                            else:
+                                cell.x += 6
+                                cell.selected = True
+                                cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+
+                        elif index[1] in [6,7,8]:
+                            board.select(index[0], index[1])
+                            cell = Cell(0, index[0], index[1], screen)
+
+                            if index[0] in [3, 4, 5]:
+                                cell.y += 6
+                                cell.x += 12
+                                cell.selected = True
+                                cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+
+                            elif index[0] in [6, 7, 8]:
+                                cell.y += 12
+                                cell.x += 12
+                                cell.selected = True
+                                cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+
+                            else:
+                                cell.x += 12
+                                cell.selected = True
+                                cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+                            
+                        else:
+                            board.select(index[0], index[1])
+                            cell = Cell(0, index[0], index[1], screen)
+                            if index[0] in [3, 4, 5]:
+                                cell.y += 6
+                                cell.selected = True
+                                cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+                            elif index[0] in [6, 7, 8]:
+                                cell.y += 12
+                                cell.selected = True
+                                cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+                            else:
+                                cell.selected = True
+                                cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+
                     except:
                         pass
                             
