@@ -111,6 +111,23 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+
+            if game_started:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    position = pygame.mouse.get_pos()
+                    board = Board(780, 780, screen, selected_difficulty)
+                    index = board.click(position[0], position[1])
+
+                    #try function checking if click is in the parameters of the board, if not passes
+                    try:
+                        board.select(index[0], index[1])
+                        cell = Cell(0, index[0], index[1], screen)
+                        cell.selected = True
+                        cell.draw() #Draw currently isnt drawing over the boxes correctly, gotta fix dimensions
+                    except:
+                        pass
+                            
+
             # Mouse Button event for Easy Medium and Hard Modes
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if not game_started:
@@ -141,6 +158,8 @@ def main():
                         pygame.display.flip()
                         pygame.time.Clock().tick(60)
 
+                        
+
                 if not game_started:
                     if medrect.collidepoint(event.pos):
                         for i, rect in enumerate(difficulty_rects):
@@ -168,6 +187,17 @@ def main():
 
                         pygame.display.flip()
                         pygame.time.Clock().tick(60)
+                        
+
+
+                        position = pygame.mouse.get_pos()
+                        board = Board(780, 780, screen, selected_difficulty)
+                        index = board.click(position[0], position[1])
+                        board.select(index[0], index[1]) # <-- encounters error currently where if click is not in any of the cells
+                        #TypeError: 'NoneType' object is not subscriptable for index[0] returns **Fix later
+                        cell = Cell(0, index[0], index[1], screen)
+                        cell.selected = True
+                        cell.draw()
 
                 if not game_started:
                     if hardrect.collidepoint(event.pos):
@@ -196,6 +226,10 @@ def main():
 
                         pygame.display.flip()
                         pygame.time.Clock().tick(60)
+                        
+                
+                            
+
 
                 #Implementation of Reset, Return, Exit functionality
 

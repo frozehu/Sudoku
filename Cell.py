@@ -18,8 +18,7 @@ class Cell:
     def draw(self):
         x = self.row * self.cell_size
         y = self.col * self.cell_size
-        rect = pygame.Rect(x, y, self.cell_size, self.cell_size)
-        pygame.draw.rect(self.screen, (255, 255, 255), rect)
+        rect = pygame.Rect(x, y, self.cell_size * 3, self.cell_size * 3)
         # if user selects a cell, outline in red
         if self.selected:
             pygame.draw.rect(self.screen, (255, 0, 0), rect, 3)

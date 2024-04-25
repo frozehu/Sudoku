@@ -11,7 +11,7 @@ class Board:
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
-        # Initially was giving a not enough parameters error, add 0 and screen for it 
+        # Initially was giving a not enough parameters error, add None and screen for it 
         #to be able to run not sure if its correct
         self.cells = [[Cell(None, row, col, screen) for col in range(9)] for row in range(9)]
         self.selected_cell = None
