@@ -1,7 +1,6 @@
 import pygame, sys
 from board import *
 from SudokuGenerator import *
-
 pygame.init()
 screen = pygame.display.set_mode((780, 880))
 pygame.display.set_caption("Sudoku")
@@ -227,7 +226,37 @@ def main():
 
                     except:
                         pass
+
+                if event.type == pygame.KEYDOWN:
+                    if event.type == pygame.KEYDOWN:
+                        if (event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3 or
+                                event.key == pygame.K_4 or event.key == pygame.K_5 or event.key == pygame.K_6 or
+                                event.key == pygame.K_7 or event.key == pygame.K_8 or event.key == pygame.K_9):
+
+                            # Determine the value pressed (from 1 to 9)
+                            value = event.key - pygame.K_1 + 1
+
+                            # Get the mouse position and convert it to board cell indices
+                            position = pygame.mouse.get_pos()
+                            board = Board(780, 780, screen, selected_difficulty)
+                            index = board.click(position[0], position[1])
+
+                            # Check if the clicked cell is valid
+                            if index:
+                                # Update the board with the pressed number (if cell is valid)
+                                sudoku_board = SudokuGenerator().get_board()
+                                sudoku_board[index[0]][index[1]] = value
+
                             
+
+                                # Render and blit the updated number onto the cell
+                                font = pygame.font.Font(None, 36)
+                                text_surface = font.render(str(value), True, Black)
+                                text_rect = text_surface.get_rect(center=(
+                                    index[1] * Cell_size + Cell_size // 2, index[0] * Cell_size + Cell_size // 2))
+                                screen.blit(text_surface, text_rect)
+
+                                pygame.display.flip()
 
             # Mouse Button event for Easy Medium and Hard Modes
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -257,7 +286,6 @@ def main():
                                     screen.blit(text, text_rect)
 
                         pygame.display.flip()
-                        pygame.time.Clock().tick(60)
 
                         
 
