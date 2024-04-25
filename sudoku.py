@@ -3,143 +3,223 @@ from board import *
 from SudokuGenerator import *
 
 pygame.init()
-screen = pygame.display.set_mode((780, 780))
+screen = pygame.display.set_mode((780, 880))
 pygame.display.set_caption("Sudoku")
 
-#def starting_screen():
-    # put starting screen things in here? Ran into accessing button collide points outside of definition
-    # Ref lines 24 - 59
+# Global variables to track difficulty selection
+difficulty_selected = False
+game_started = False
 
-def background():
+
+def background(difficulty):
     screen.fill(White)
-    board = Board(750, 750, screen, "easy")
+    board = Board(750, 750, screen, difficulty)
     board.draw()
+
+    # Reset button
+    resetfont = pygame.font.Font(None, 36)
+    reset = resetfont.render("Reset", True, White, None)
+    resetrect = reset.get_rect(topleft=(230, 800))
+    pygame.draw.rect(screen, (255, 102, 0), resetrect)
+    screen.blit(reset, resetrect)
+
+    # Restart button
+    restartfont = pygame.font.Font(None, 36)
+    restart = restartfont.render("Restart", True, White, None)
+    restartrect = restart.get_rect(topleft=(355, 800))
+    pygame.draw.rect(screen, (255, 102, 0), restartrect)
+    screen.blit(restart, restartrect)
+
+    # Exit button
+    exitfont = pygame.font.Font(None, 36)
+    exit_ = exitfont.render("Exit", True, White, None)
+    exitrect = exit_.get_rect(topleft=(505, 800))
+    pygame.draw.rect(screen, (255, 102, 0), exitrect)
+    screen.blit(exit_, exitrect)
+
+    pygame.display.flip()
+
+
 
 def start_screen():
     # background image
     bg = pygame.image.load("sudoimage.jpg")
-    bg = pygame.transform.scale(bg, (780, 780))
+    bg = pygame.transform.scale(bg, (780, 880))
     screen.blit(bg, (0, 0))
 
     # Welcome message
     welcomefont = pygame.font.Font(None, 50)
     welcome = welcomefont.render("Welcome to Sudoku", True, Black, None)
-    screen.blit(welcome, (235,100))
+    screen.blit(welcome, (235, 100))
 
     # Select game mode message
     sgmfont = pygame.font.Font(None, 50)
-    sgm = sgmfont.render("Select Game Mode:", True, Black, None)
+    sgm = sgmfont.render("Select Game Mode:", True, Black, White)
     screen.blit(sgm, (235, 400))
 
     # Game mode buttons(Easy)
     easyfont = pygame.font.Font(None, 36)
     easy = easyfont.render("Easy", True, White, None)
-    easyrect = easy.get_rect(topleft = (230, 490))
+    easyrect = easy.get_rect(topleft=(230, 490))
     pygame.draw.rect(screen, (255, 102, 0), easyrect)
     screen.blit(easy, easyrect)
-
 
     # Game mode button(Medium)
     medfont = pygame.font.Font(None, 36)
     med = medfont.render("Medium", True, White, None)
-    medrect = med.get_rect(topleft = (350, 490))
+    medrect = med.get_rect(topleft=(350, 490))
     pygame.draw.rect(screen, (255, 102, 0), medrect)
     screen.blit(med, medrect)
-
 
     # Game mode button(Hard)
     hardfont = pygame.font.Font(None, 36)
     hard = hardfont.render("Hard", True, White, None)
-    hardrect = hard.get_rect(topleft = (500, 490))
+    hardrect = hard.get_rect(topleft=(500, 490))
     pygame.draw.rect(screen, (255, 102, 0), hardrect)
     screen.blit(hard, hardrect)
 
+    # Only show additional buttons if a difficulty has been selected
+
     return [easyrect, medrect, hardrect]
 
+
 def main():
-    mouse = pygame.mouse.get_pos()
+    global difficulty_selected, game_started  # Accessing the global flag
     running = True
     screen.fill(White)
     start_screen()
+    difficulty_rects = start_screen()
     easyrect = start_screen()[0]
     medrect = start_screen()[1]
     hardrect = start_screen()[2]
 
+    resetfont = pygame.font.Font(None, 36)
+    reset = resetfont.render("Reset", True, White, None)
+    resetrect = reset.get_rect(topleft=(230, 800))
 
-    
+    restartfont = pygame.font.Font(None, 36)
+    restart = restartfont.render("Restart", True, White, None)
+    restartrect = restart.get_rect(topleft=(355, 800))
+
+    exitfont = pygame.font.Font(None, 36)
+    exit_ = exitfont.render("Exit", True, White, None)
+    exitrect = exit_.get_rect(topleft=(505, 800))
 
     while running:
-        #Main Loop
+        # Main Loop
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
-
-            #Mouse Button event for Easy Medium and Hard Modes
+            # Mouse Button event for Easy Medium and Hard Modes
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if easyrect.collidepoint(event.pos):
-                    sudoku_generator = SudokuGenerator()
-                    sudoku_generator.Removed_cells = 30
-                    sudoku_generator.fill_values()
-                    sudoku_generator.remove_cells()
-                    sudoku_board = sudoku_generator.get_board()
+                if not game_started:
+                    if easyrect.collidepoint(event.pos):
+                        for i, rect in enumerate(difficulty_rects):
+                            difficulty_selected = True
+                            difficulty_levels = ["easy", "medium", "hard"]
+                            selected_difficulty = difficulty_levels[i]
+                        game_started = True
 
-                    background()
-                    font = pygame.font.Font(None, 36)
-                    for i in range(Row_length):
-                        for j in range(Row_length):
-                            if sudoku_board[i][j] != 0:
-                                text = font.render(str(sudoku_board[i][j]), True, Black)
-                                text_rect = text.get_rect(center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
-                                screen.blit(text, text_rect)
+                        sudoku_generator = SudokuGenerator()
+                        sudoku_generator.Removed_cells = 30
+                        sudoku_generator.fill_values()
+                        sudoku_generator.remove_cells()
+                        sudoku_board = sudoku_generator.get_board()
 
+                        background(selected_difficulty)
 
-                    pygame.display.flip()
-                    pygame.time.Clock().tick(60)
+                        font = pygame.font.Font(None, 36)
+                        for i in range(Row_length):
+                            for j in range(Row_length):
+                                if sudoku_board[i][j] != 0:
+                                    text = font.render(str(sudoku_board[i][j]), True, Black)
+                                    text_rect = text.get_rect(
+                                        center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
+                                    screen.blit(text, text_rect)
 
-                if medrect.collidepoint(event.pos):
-                    sudoku_generator = SudokuGenerator()
-                    sudoku_generator.Removed_cells = 40
-                    sudoku_generator.fill_values()
-                    sudoku_generator.remove_cells()
-                    sudoku_board = sudoku_generator.get_board()
+                        pygame.display.flip()
+                        pygame.time.Clock().tick(60)
 
-                    background()
+                if not game_started:
+                    if medrect.collidepoint(event.pos):
+                        for i, rect in enumerate(difficulty_rects):
+                            difficulty_selected = True
+                            difficulty_levels = ["easy", "medium", "hard"]
+                            selected_difficulty = difficulty_levels[i]
+                        game_started = True
 
-                    font = pygame.font.Font(None, 36)
-                    for i in range(Row_length):
-                        for j in range(Row_length):
-                            if sudoku_board[i][j] != 0:
-                                text = font.render(str(sudoku_board[i][j]), True, Black)
-                                text_rect = text.get_rect(center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
-                                screen.blit(text, text_rect)
+                        sudoku_generator = SudokuGenerator()
+                        sudoku_generator.Removed_cells = 40
+                        sudoku_generator.fill_values()
+                        sudoku_generator.remove_cells()
+                        sudoku_board = sudoku_generator.get_board()
 
-                    pygame.display.flip()
-                    pygame.time.Clock().tick(60)
-                if hardrect.collidepoint(event.pos):
-                    sudoku_generator = SudokuGenerator()
-                    sudoku_generator.Removed_cells = 50
-                    sudoku_generator.fill_values()
-                    sudoku_generator.remove_cells()
-                    sudoku_board = sudoku_generator.get_board()
-                    
-                    background()
+                        background(selected_difficulty)
 
-                    font = pygame.font.Font(None, 36)
-                    for i in range(Row_length):
-                        for j in range(Row_length):
-                            if sudoku_board[i][j] != 0:
-                                text = font.render(str(sudoku_board[i][j]), True, Black)
-                                text_rect = text.get_rect(center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
-                                screen.blit(text, text_rect)
+                        font = pygame.font.Font(None, 36)
+                        for i in range(Row_length):
+                            for j in range(Row_length):
+                                if sudoku_board[i][j] != 0:
+                                    text = font.render(str(sudoku_board[i][j]), True, Black)
+                                    text_rect = text.get_rect(
+                                        center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
+                                    screen.blit(text, text_rect)
 
-                    pygame.display.flip()
-                    pygame.time.Clock().tick(60)
+                        pygame.display.flip()
+                        pygame.time.Clock().tick(60)
 
+                if not game_started:
+                    if hardrect.collidepoint(event.pos):
+                        for i, rect in enumerate(difficulty_rects):
+                            difficulty_selected = True
+                            difficulty_levels = ["easy", "medium", "hard"]
+                            selected_difficulty = difficulty_levels[i]
+                        game_started = True
+
+                        sudoku_generator = SudokuGenerator()
+                        sudoku_generator.Removed_cells = 50
+                        sudoku_generator.fill_values()
+                        sudoku_generator.remove_cells()
+                        sudoku_board = sudoku_generator.get_board()
+
+                        background(selected_difficulty)
+
+                        font = pygame.font.Font(None, 36)
+                        for i in range(Row_length):
+                            for j in range(Row_length):
+                                if sudoku_board[i][j] != 0:
+                                    text = font.render(str(sudoku_board[i][j]), True, Black)
+                                    text_rect = text.get_rect(
+                                        center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
+                                    screen.blit(text, text_rect)
+
+                        pygame.display.flip()
+                        pygame.time.Clock().tick(60)
+
+                else:
+                    if resetrect.collidepoint(event.pos):
+                        pass
+                            # Reset button clicked
+                        # Implement code to reset the board
+                        # ...
+
+                    elif restartrect.collidepoint(event.pos):
+                        # Restart button clicked
+                        # Reset game_started flag and any other necessary variables
+                        game_started = False
+                        # Return to the home screen
+                        screen.fill(White)
+                        start_screen()
+
+                    elif exitrect.collidepoint(event.pos):
+                        # Exit button clicked
+                        pygame.quit()
+                        sys.exit()
 
         pygame.display.flip()
-        
-    pygame.quit
+
+    pygame.quit()
 
 
 if __name__ == "__main__":
