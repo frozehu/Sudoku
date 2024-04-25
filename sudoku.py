@@ -197,6 +197,8 @@ def main():
                         pygame.display.flip()
                         pygame.time.Clock().tick(60)
 
+                #Implementation of Reset, Return, Exit functionality
+
                 else:
                     if resetrect.collidepoint(event.pos):
                         pass
