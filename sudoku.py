@@ -179,14 +179,6 @@ def main():
                     except:
                         pass
                 if event.type == pygame.KEYDOWN:
-                    # if event.key == pygame.K_1:
-                    #     position = pygame.mouse.get_pos()
-                    #     board = Board(780, 780, screen, selected_difficulty)
-                    #     index = board.click(position[0], position[1])
-                    #     value = pygame.K_1 - 48
-                    #     value2 = font.render(str(value), True, (0, 0, 0))
-                    #     print(value)
-                    #     screen.blit(value2, index)
                     if event.type == pygame.KEYDOWN:
                         if (event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3 or
                                 event.key == pygame.K_4 or event.key == pygame.K_5 or event.key == pygame.K_6 or
@@ -205,10 +197,6 @@ def main():
                                 # Update the board with the pressed number (if cell is valid)
                                 sudoku_board = SudokuGenerator().get_board()
                                 sudoku_board[index[0]][index[1]] = value
-
-                                # Clear the cell area to redraw the updated number
-                                pygame.draw.rect(screen, White,
-                                                 (index[1] * Cell_size, index[0] * Cell_size, Cell_size, Cell_size))
 
                                 # Render and blit the updated number onto the cell
                                 font = pygame.font.Font(None, 36)
