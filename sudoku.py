@@ -171,7 +171,7 @@ def main():
                                 guess_board[index[0]][index[1]] = value
 
 
-                    # Check if return key is pressed
+                    # Check if return key is pressed, only add numbers to Sudoku Array if it has
                     elif event.key == pygame.K_RETURN:
                         if guess_board[index[0]][index[1]] in (1, 2, 3, 4, 5, 6, 7, 8, 9):
                             print("ITS WORKING")
