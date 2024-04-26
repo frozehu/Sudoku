@@ -174,6 +174,9 @@ def main():
 
                     # Check if the index is valid before proceeding
                     if index is not None:
+                        #removes previously selected cell
+                        board = Board(750, 750, screen, selected_difficulty)
+                        board.draw()
                         board.select(index[0], index[1])
 
                         # Adjust the position of the cell based on the index
