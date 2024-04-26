@@ -196,26 +196,24 @@ def main():
                         cell.draw()
 
                 if event.type == pygame.KEYDOWN:
-                    if event.type == pygame.KEYDOWN:
-                        if (event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3 or
-                                event.key == pygame.K_4 or event.key == pygame.K_5 or event.key == pygame.K_6 or
-                                event.key == pygame.K_7 or event.key == pygame.K_8 or event.key == pygame.K_9):
+                    if (event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3 or
+                            event.key == pygame.K_4 or event.key == pygame.K_5 or event.key == pygame.K_6 or
+                            event.key == pygame.K_7 or event.key == pygame.K_8 or event.key == pygame.K_9):
 
-                            # Determine the value pressed (from 1 to 9)
-                            value = event.key - pygame.K_1 + 1
+                        # Determine the value pressed (from 1 to 9)
+                        value = event.key - pygame.K_1 + 1
 
-                            # Get the mouse position and convert it to board cell indices
-                            position = pygame.mouse.get_pos()
-                            board = Board(780, 780, screen, selected_difficulty)
-                            index = board.click(position[0], position[1])
+                        # Get the mouse position and convert it to board cell indices
+                        position = pygame.mouse.get_pos()
+                        board = Board(780, 780, screen, selected_difficulty)
+                        index = board.click(position[0], position[1])
 
-                            # Check if the clicked cell is valid
-                            if index:
-                                # Update the board with the pressed number (if cell is valid)
-                                sudoku_board = SudokuGenerator().get_board()
+                        # Check if the clicked cell is valid
+                        if index:
+                            # Check if the cell is empty
+                            if sudoku_board[index[0]][index[1]] == 0:
+                                # Update the board with the pressed number
                                 sudoku_board[index[0]][index[1]] = value
-
-                            
 
                                 # Render and blit the updated number onto the cell
                                 font = pygame.font.Font(None, 36)
