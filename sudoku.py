@@ -129,7 +129,7 @@ def main():
 
                     # Check if the index is valid before proceeding
                     if index is not None:
-                        #removes previously selected cell
+                        # Removes previously selected cell
                         board = Board(750, 750, screen, selected_difficulty)
                         board.draw()
                         board.select(index[0], index[1])
@@ -147,9 +147,10 @@ def main():
                             cell.y += 12
 
                         # Set the selected flag and draw the cell
-                        cell.selected = True
                         cell.draw()
+                        cell.selected = True
 
+                # This line should be unindented to be at the same level as the if statement above
                 if event.type == pygame.KEYDOWN:
                     if (event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3 or
                             event.key == pygame.K_4 or event.key == pygame.K_5 or event.key == pygame.K_6 or
@@ -158,10 +159,7 @@ def main():
                         # Determine the value pressed (from 1 to 9)
                         value = event.key - pygame.K_1 + 1
 
-                        # Get the mouse position and convert it to board cell indices
-                        position = pygame.mouse.get_pos()
-                        board = Board(780, 780, screen, selected_difficulty)
-                        index = board.click(position[0], position[1])
+                        # You can only type in a selected box
 
                         # Check if the clicked cell is valid
                         if index:
@@ -169,15 +167,31 @@ def main():
                             if copy_of_sudoku[index[0]][index[1]] == 0:
                                 # Update the board with the pressed number
                                 sudoku_board[index[0]][index[1]] = value
-                                print(copy_of_sudoku)
-                                print(sudoku_board)
-                            
+
+                                print("Not Changing Board")
+                                for items in copy_of_sudoku:
+                                    print(items)
+
+                                print("Changing Board")
+                                for items in sudoku_board:
+                                    print(items)
+
+                                print("Completed Board")
+                                for items in completed_board:
+                                    print(items)
+
                                 for i in range(Row_length):
                                     for j in range(Row_length):
                                         if sudoku_board[i][j] != 0:
-                                            text = font.render(str(sudoku_board[i][j]), True, Black, White)
+                                            # Check if the number was input by the user
+                                            if copy_of_sudoku[i][j] == 0:
+                                                text_color = (150, 150, 150)
+                                            else:
+                                                text_color = Black  # or whatever color you want for non-user-inputted numbers
+                                            text = font.render(str(sudoku_board[i][j]), True, text_color, White)
                                             text_rect = text.get_rect(
-                                                center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
+                                                center=(
+                                                    j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
                                             screen.blit(text, text_rect)
 
                             if event.type == pygame.KEYDOWN:
@@ -192,7 +206,6 @@ def main():
                                         print(input_value)
 
                                 pygame.display.flip()
-
             # Mouse Button event for Easy Medium and Hard Modes
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if not game_started:
@@ -206,10 +219,10 @@ def main():
                         sudoku_generator = SudokuGenerator()
                         sudoku_generator.Removed_cells = 30
                         sudoku_generator.fill_values()
+                        completed_board = copy.deepcopy(sudoku_generator.get_board())
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
-                        print(sudoku_board)
                         
 
                         background(selected_difficulty)
@@ -238,10 +251,10 @@ def main():
                         sudoku_generator = SudokuGenerator()
                         sudoku_generator.Removed_cells = 40
                         sudoku_generator.fill_values()
+                        completed_board = copy.deepcopy(sudoku_generator.get_board())
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
-                        print(sudoku_board)
 
                         background(selected_difficulty)
 
@@ -269,10 +282,10 @@ def main():
                         sudoku_generator = SudokuGenerator()
                         sudoku_generator.Removed_cells = 50
                         sudoku_generator.fill_values()
+                        completed_board = copy.deepcopy(sudoku_generator.get_board())
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
-                        print(sudoku_board)
 
                         background(selected_difficulty)
 
@@ -294,9 +307,25 @@ def main():
 
                 #Implementation of Reset, Return, Exit functionality
 
-                else:
+                if game_started or not game_started:
                     if resetrect.collidepoint(event.pos):
-                        pass
+                        screen.fill(White)
+                        background(selected_difficulty)
+
+                        font = pygame.font.Font(None, 36)
+                        for i in range(Row_length):
+                            for j in range(Row_length):
+                                if copy_of_sudoku[i][j] != 0:
+                                    text = font.render(str(copy_of_sudoku[i][j]), True, Black)
+                                    text_rect = text.get_rect(
+                                        center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
+                                    screen.blit(text, text_rect)
+                        for i in range(0, 9):
+                            for j in range(0, 9):
+                                sudoku_board[i][j] = copy_of_sudoku[i][j]
+
+                        pygame.display.flip()
+                        pygame.time.Clock().tick(60)
                             # Reset button clicked
                         # Implement code to reset the board
                         # ...
