@@ -176,6 +176,9 @@ def main():
                                 for items in sudoku_board:
                                     print(items)
                                 
+                                print("Completed Board")
+                                for items in completed_board:
+                                    print(items)
 
                                 for i in range(Row_length):
                                     for j in range(Row_length):
@@ -201,6 +204,7 @@ def main():
                         sudoku_generator = SudokuGenerator()
                         sudoku_generator.Removed_cells = 30
                         sudoku_generator.fill_values()
+                        completed_board = copy.deepcopy(sudoku_generator.get_board())
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
@@ -232,6 +236,7 @@ def main():
                         sudoku_generator = SudokuGenerator()
                         sudoku_generator.Removed_cells = 40
                         sudoku_generator.fill_values()
+                        completed_board = copy.deepcopy(sudoku_generator.get_board())
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
@@ -262,6 +267,7 @@ def main():
                         sudoku_generator = SudokuGenerator()
                         sudoku_generator.Removed_cells = 50
                         sudoku_generator.fill_values()
+                        completed_board = copy.deepcopy(sudoku_generator.get_board())
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
