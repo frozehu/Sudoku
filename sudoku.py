@@ -181,6 +181,7 @@ def main():
                                             screen.blit(text, text_rect)
 
                                 pygame.display.flip()
+                                #Push
 
             # Mouse Button event for Easy Medium and Hard Modes
             if event.type == pygame.MOUSEBUTTONDOWN:
