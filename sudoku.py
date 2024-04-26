@@ -183,12 +183,12 @@ def main():
                             if event.type == pygame.KEYDOWN:
                                 if event.key == pygame.K_RETURN:
                                     valid_cell = SudokuGenerator.valid_in_box
-                                    if selected:  # Ensure a cell is selected
-                                        row, col = selected  # Assuming 'selected' holds the selected cell indices
+                                    if selected:  #Ensure a cell is selected
+                                        row, col = selected  #Assuming 'selected' holds the selected cell indices
                                         input_value = board.cells[row][col].sketched_value
-                                    if valid_cell:  # input is in a valid cell:
-                                        board.cells[row][col].value = input_value  # Set the actual value
-                                        board.cells[row][col].sketched_value = None  # Clear the sketch
+                                    if valid_cell:  #input is in a valid cell:
+                                        board.cells[row][col].value = input_value  #Set the actual value
+                                        board.cells[row][col].sketched_value = None  #Clear the sketch
                                         print(input_value)
 
                                 pygame.display.flip()
