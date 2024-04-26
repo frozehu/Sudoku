@@ -88,6 +88,7 @@ def start_screen():
 def main():
     global difficulty_selected, game_started, selected_difficulty
     running = True
+    win = False
     screen.fill(White)
     start_screen()
     difficulty_rects = start_screen()
@@ -106,6 +107,10 @@ def main():
     exitfont = pygame.font.Font(None, 36)
     exit_ = exitfont.render("Exit", True, White, None)
     exitrect = exit_.get_rect(topleft=(505, 800))
+
+    winscreenfont = pygame.font.Font(None, 50)
+    win_text = winscreenfont.render("Game Won :)", True, Black)
+    win_rect = win_text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
 
     while running:
         # Main Loop
@@ -178,6 +183,8 @@ def main():
                             sudoku_board[index[0]][index[1]] = guess_board[index[0]][index[1]]
                             text_color = Black
                             return_key_pressed = True
+                            if sudoku_board == completed_board:
+                                win = True
                         else:
                             print("Not Changing Board")
 
@@ -357,6 +364,21 @@ def main():
                         # Exit button clicked
                         pygame.quit()
                         sys.exit()
+
+                if win:
+                    screen.fill(White)
+                    screen.blit(win_text, win_rect)
+                    pygame.draw.rect(screen, (255, 102, 0), exitrect)
+                    screen.blit(exit_, exitrect)
+                    pygame.display.flip()
+
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            running = False
+                        if event.type == pygame.MOUSEBUTTONDOWN:
+                            if exitrect.collidepoint(event.pos):
+                                pygame.quit()
+                                sys.exit()
 
         pygame.display.flip()
 
