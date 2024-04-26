@@ -281,17 +281,7 @@ def main():
 
                         pygame.display.flip()
                         pygame.time.Clock().tick(60)
-                        
 
-
-                        position = pygame.mouse.get_pos()
-                        board = Board(780, 780, screen, selected_difficulty)
-                        index = board.click(position[0], position[1])
-                        board.select(index[0], index[1]) # <-- encounters error currently where if click is not in any of the cells
-                        #TypeError: 'NoneType' object is not subscriptable for index[0] returns **Fix later
-                        cell = Cell(0, index[0], index[1], screen)
-                        cell.selected = True
-                        cell.draw()
 
                 if not game_started:
                     if hardrect.collidepoint(event.pos):
