@@ -9,6 +9,7 @@ pygame.display.set_caption("Sudoku")
 # Global variables to track difficulty selection
 difficulty_selected = False
 game_started = False
+selected = False
 
 
 
@@ -170,16 +171,7 @@ def main():
                                 sudoku_board[index[0]][index[1]] = value
                                 print(copy_of_sudoku)
                                 print(sudoku_board)
-
-                                #Render and blit the updated number onto the cell
-                                '''font = pygame.font.Font(None, 36)
-                                text_surface = font.render(str(value), True, Black)
-                                text_rect = text_surface.get_rect(center=(
-                                    index[1] * Cell_size + Cell_size // 2, index[0] * Cell_size + Cell_size // 2))
-                                screen.blit(text_surface, text_rect)'''
                             
-                            
-
                                 for i in range(Row_length):
                                     for j in range(Row_length):
                                         if sudoku_board[i][j] != 0:

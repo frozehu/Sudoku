@@ -1,12 +1,12 @@
 import pygame
 
 class Cell:
+    selected = False
     def __init__(self, row, col, screen):
         self.row = row
         self.col = col
         self.screen = screen
         self.cell_size = 81
-        self.selected = False
 
         self.y = self.row * self.cell_size
         self.x = self.col * self.cell_size
