@@ -175,7 +175,7 @@ def main():
                                 print("Changing Board")
                                 for items in sudoku_board:
                                     print(items)
-                                
+
                                 print("Completed Board")
                                 for items in completed_board:
                                     print(items)
@@ -183,14 +183,18 @@ def main():
                                 for i in range(Row_length):
                                     for j in range(Row_length):
                                         if sudoku_board[i][j] != 0:
-                                            text = font.render(str(sudoku_board[i][j]), True, Black, White)
+                                            # Check if the number was input by the user
+                                            if copy_of_sudoku[i][j] == 0:
+                                                text_color = (150, 150, 150)
+                                            else:
+                                                text_color = Black  # or whatever color you want for non-user-inputted numbers
+                                            text = font.render(str(sudoku_board[i][j]), True, text_color, White)
                                             text_rect = text.get_rect(
                                                 center=(
                                                     j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
                                             screen.blit(text, text_rect)
 
                                 pygame.display.flip()
-
             # Mouse Button event for Easy Medium and Hard Modes
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if not game_started:
