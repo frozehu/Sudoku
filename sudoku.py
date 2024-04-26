@@ -148,7 +148,6 @@ def main():
 
                         # Set the selected flag and draw the cell
                         cell.draw()
-                        print(index)
                         cell.selected = True
 
                 # This line should be unindented to be at the same level as the if statement above
@@ -168,8 +167,15 @@ def main():
                             if copy_of_sudoku[index[0]][index[1]] == 0:
                                 # Update the board with the pressed number
                                 sudoku_board[index[0]][index[1]] = value
-                                print(copy_of_sudoku)
-                                print(sudoku_board)
+
+                                print("Not Changing Board")
+                                for items in copy_of_sudoku:
+                                    print(items)
+
+                                print("Changing Board")
+                                for items in sudoku_board:
+                                    print(items)
+                                
 
                                 for i in range(Row_length):
                                     for j in range(Row_length):
@@ -198,7 +204,6 @@ def main():
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
-                        print(sudoku_board)
                         
 
                         background(selected_difficulty)
@@ -230,7 +235,6 @@ def main():
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
-                        print(sudoku_board)
 
                         background(selected_difficulty)
 
@@ -261,7 +265,6 @@ def main():
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
-                        print(sudoku_board)
 
                         background(selected_difficulty)
 
@@ -283,9 +286,25 @@ def main():
 
                 #Implementation of Reset, Return, Exit functionality
 
-                else:
+                if game_started or not game_started:
                     if resetrect.collidepoint(event.pos):
-                        pass
+                        screen.fill(White)
+                        background(selected_difficulty)
+
+                        font = pygame.font.Font(None, 36)
+                        for i in range(Row_length):
+                            for j in range(Row_length):
+                                if copy_of_sudoku[i][j] != 0:
+                                    text = font.render(str(copy_of_sudoku[i][j]), True, Black)
+                                    text_rect = text.get_rect(
+                                        center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
+                                    screen.blit(text, text_rect)
+                        for i in range(0, 9):
+                            for j in range(0, 9):
+                                sudoku_board[i][j] = copy_of_sudoku[i][j]
+
+                        pygame.display.flip()
+                        pygame.time.Clock().tick(60)
                             # Reset button clicked
                         # Implement code to reset the board
                         # ...
