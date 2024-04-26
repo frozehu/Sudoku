@@ -160,7 +160,7 @@ def main():
                         # Determine the value pressed (from 1 to 9)
                         value = event.key - pygame.K_1 + 1
 
-                        # You can only type in selected boxes
+                        # You can only type in a selected box
 
                         # Check if the clicked cell is valid
                         if index:
