@@ -1,6 +1,7 @@
 import pygame, sys
 from board import *
 from SudokuGenerator import *
+import copy
 pygame.init()
 screen = pygame.display.set_mode((780, 880))
 pygame.display.set_caption("Sudoku")
@@ -8,53 +9,6 @@ pygame.display.set_caption("Sudoku")
 # Global variables to track difficulty selection
 difficulty_selected = False
 game_started = False
-
-class RectCell(pygame.Rect):
-    '''
-    A class built upon the pygame Rect class used to represent individual cells in the game.
-    This class has a few extra attributes not contained within the base Rect class.
-    '''
-
-    def __init__(self, left, top, row, col):
-        super().__init__(left, top, 81, 81)
-        self.row = row
-        self.col = col
-
-cell_size = 81
-minor_grid_size = 1
-major_grid_size = 3
-buffer = 18
-
-def create_cells():
-    '''Creates all 81 cells with RectCell class.'''
-    cells = [[] for _ in range(9)]
-
-    row = 0
-    col = 0
-    left = 18
-    top = 18
-
-    while row < 9:
-        while col < 9:
-            cells[row].append(RectCell(left, top, row, col))
-
-            # Update attributes for next RectCell
-            left += cell_size + minor_grid_size
-            if col != 0 and (col + 1) % 3 == 0:
-                left = left + major_grid_size - minor_grid_size
-            col += 1
-
-        # Update attributes for next RectCell
-        top += cell_size + minor_grid_size
-        if row != 0 and (row + 1) % 3 == 0:
-            top = top + major_grid_size - minor_grid_size
-        left = buffer + major_grid_size
-        col = 0
-        row += 1
-
-    return cells
-
-cells = create_cells()
 
 
 
@@ -211,16 +165,28 @@ def main():
                         # Check if the clicked cell is valid
                         if index:
                             # Check if the cell is empty
-                            if sudoku_board[index[0]][index[1]] == 0:
+                            if copy_of_sudoku[index[0]][index[1]] == 0:
                                 # Update the board with the pressed number
                                 sudoku_board[index[0]][index[1]] = value
+                                print(copy_of_sudoku)
+                                print(sudoku_board)
 
-                                # Render and blit the updated number onto the cell
-                                font = pygame.font.Font(None, 36)
+                                #Render and blit the updated number onto the cell
+                                '''font = pygame.font.Font(None, 36)
                                 text_surface = font.render(str(value), True, Black)
                                 text_rect = text_surface.get_rect(center=(
                                     index[1] * Cell_size + Cell_size // 2, index[0] * Cell_size + Cell_size // 2))
-                                screen.blit(text_surface, text_rect)
+                                screen.blit(text_surface, text_rect)'''
+                            
+                            
+
+                                for i in range(Row_length):
+                                    for j in range(Row_length):
+                                        if sudoku_board[i][j] != 0:
+                                            text = font.render(str(sudoku_board[i][j]), True, Black, White)
+                                            text_rect = text.get_rect(
+                                                center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
+                                            screen.blit(text, text_rect)
 
                                 pygame.display.flip()
 
@@ -239,6 +205,9 @@ def main():
                         sudoku_generator.fill_values()
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
+                        copy_of_sudoku = copy.deepcopy(sudoku_board)
+                        print(sudoku_board)
+                        
 
                         background(selected_difficulty)
 
@@ -268,6 +237,8 @@ def main():
                         sudoku_generator.fill_values()
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
+                        copy_of_sudoku = copy.deepcopy(sudoku_board)
+                        print(sudoku_board)
 
                         background(selected_difficulty)
 
@@ -297,6 +268,8 @@ def main():
                         sudoku_generator.fill_values()
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
+                        copy_of_sudoku = copy.deepcopy(sudoku_board)
+                        print(sudoku_board)
 
                         background(selected_difficulty)
 
