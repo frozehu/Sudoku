@@ -180,6 +180,17 @@ def main():
                                                 center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
                                             screen.blit(text, text_rect)
 
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_RETURN:
+                                    valid_cell = SudokuGenerator.valid_in_box
+                                    if selected:  # Ensure a cell is selected
+                                        row, col = selected  # Assuming 'selected' holds the selected cell indices
+                                        input_value = board.cells[row][col].sketched_value
+                                    if valid_cell:  # input is in a valid cell:
+                                        board.cells[row][col].value = input_value  # Set the actual value
+                                        board.cells[row][col].sketched_value = None  # Clear the sketch
+                                        print(input_value)
+
                                 pygame.display.flip()
 
             # Mouse Button event for Easy Medium and Hard Modes
