@@ -150,6 +150,8 @@ def main():
                         cell.draw()
                         cell.selected = True
 
+                    return_key_pressed = False
+
                 # This line should be unindented to be at the same level as the if statement above
                 if event.type == pygame.KEYDOWN:
                     if (event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3 or
@@ -166,35 +168,58 @@ def main():
                             # Check if the cell is empty
                             if copy_of_sudoku[index[0]][index[1]] == 0:
                                 # Update the board with the pressed number
-                                sudoku_board[index[0]][index[1]] = value
+                                guess_board[index[0]][index[1]] = value
 
-                                print("Not Changing Board")
-                                for items in copy_of_sudoku:
-                                    print(items)
 
-                                print("Changing Board")
-                                for items in sudoku_board:
-                                    print(items)
+                    # Check if return key is pressed
+                    elif event.key == pygame.K_RETURN:
+                        if guess_board[index[0]][index[1]] in (1, 2, 3, 4, 5, 6, 7, 8, 9):
+                            print("ITS WORKING")
+                            sudoku_board[index[0]][index[1]] = guess_board[index[0]][index[1]]
+                            text_color = Black
+                            return_key_pressed = True
+                        else:
+                            print("Not Changing Board")
 
-                                print("Completed Board")
-                                for items in completed_board:
-                                    print(items)
+                        # Print board states
+                        print("Copy of Sudoku")
+                        for items in copy_of_sudoku:
+                            print(items)
 
-                                for i in range(Row_length):
-                                    for j in range(Row_length):
-                                        if sudoku_board[i][j] != 0:
-                                            # Check if the number was input by the user
-                                            if copy_of_sudoku[i][j] == 0:
-                                                text_color = (150, 150, 150)
-                                            else:
-                                                text_color = Black  # or whatever color you want for non-user-inputted numbers
-                                            text = font.render(str(sudoku_board[i][j]), True, text_color, White)
-                                            text_rect = text.get_rect(
-                                                center=(
-                                                    j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
-                                            screen.blit(text, text_rect)
+                        print("Guess Board")
+                        for items in guess_board:
+                            print(items)
 
-                                pygame.display.flip()
+                        print("Sudoku Board")
+                        for items in sudoku_board:
+                            print(items)
+
+                        print("Completed Board")
+                        for items in completed_board:
+                            print(items)
+
+                        print("Guess Board Values In Cells:", guess_board[index[0]][index[1]])
+
+                        # Render the board
+                    # Render the board
+                    for i in range(Row_length):
+                        for j in range(Row_length):
+                            if return_key_pressed:  # Check if return key has been pressed
+                                text_color = Black
+                            else:
+                                text_color = (150, 150, 150)  # Initially set user input to grey
+                            if guess_board[i][j] in (1, 2, 3, 4, 5, 6, 7, 8, 9):
+                                if copy_of_sudoku[i][j] == 0:  # Check if it's an empty cell
+                                    text_color = (150, 150, 150)  # Change color for user input
+                                else:
+                                    text_color = Black  # Keep original numbers black
+                                text = font.render(str(guess_board[i][j]), True, text_color, White)
+                                text_rect = text.get_rect(
+                                    center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
+                                screen.blit(text, text_rect)
+
+                    pygame.display.flip()
+
             # Mouse Button event for Easy Medium and Hard Modes
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if not game_started:
@@ -212,6 +237,7 @@ def main():
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
+                        guess_board = copy.deepcopy(sudoku_board)
                         
 
                         background(selected_difficulty)
