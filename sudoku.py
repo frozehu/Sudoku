@@ -11,6 +11,33 @@ difficulty_selected = False
 game_started = False
 selected = False
 
+def win_screen():
+    screen.fill(White)
+    bg = pygame.image.load("sudoimage.jpg")
+    bg = pygame.transform.scale(bg, (780, 880))
+    screen.blit(bg, (0, 0))
+
+    # Exit button
+    exitfont = pygame.font.Font(None, 36)
+    exit_ = exitfont.render("Exit", True, White, None)
+    exitrect = exit_.get_rect(topleft=(390, 440))
+    pygame.draw.rect(screen, (255, 102, 0), exitrect)
+    screen.blit(exit_, exitrect)
+
+def loss_screen():
+    screen.fill(White)
+    bg = pygame.image.load("sudoimage.jpg")
+    bg = pygame.transform.scale(bg, (780, 880))
+    screen.blit(bg, (0, 0))
+
+    # Reset button
+    resetfont = pygame.font.Font(None, 36)
+    reset = resetfont.render("Reset", True, White, None)
+    resetrect = reset.get_rect(topleft=(390, 440))
+    pygame.draw.rect(screen, (255, 102, 0), resetrect)
+    screen.blit(reset, resetrect)
+
+
 
 
 def background(difficulty):
