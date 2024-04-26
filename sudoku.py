@@ -160,7 +160,7 @@ def main():
                         # Determine the value pressed (from 1 to 9)
                         value = event.key - pygame.K_1 + 1
 
-                        # Get the mouse position and convert it to board cell indices
+                        # You can only type in selected boxes
 
                         # Check if the clicked cell is valid
                         if index:
