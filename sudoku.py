@@ -196,8 +196,15 @@ def main():
                             if copy_of_sudoku[index[0]][index[1]] == 0:
                                 # Update the board with the pressed number
                                 sudoku_board[index[0]][index[1]] = value
-                                print(copy_of_sudoku)
-                                print(sudoku_board)
+
+                                print("Not Changing Board")
+                                for items in copy_of_sudoku:
+                                    print(items)
+
+                                print("Changing Board")
+                                for items in sudoku_board:
+                                    print(items)
+                                
                             
                                 for i in range(Row_length):
                                     for j in range(Row_length):
@@ -225,8 +232,6 @@ def main():
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
-                        print(sudoku_board)
-                        
 
                         background(selected_difficulty)
 
@@ -257,8 +262,6 @@ def main():
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
-                        print(sudoku_board)
-
                         background(selected_difficulty)
 
                         font = pygame.font.Font(None, 36)
@@ -288,7 +291,6 @@ def main():
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
-                        print(sudoku_board)
 
                         background(selected_difficulty)
 
