@@ -129,7 +129,7 @@ def main():
 
                     # Check if the index is valid before proceeding
                     if index is not None:
-                        #removes previously selected cell
+                        # Removes previously selected cell
                         board = Board(750, 750, screen, selected_difficulty)
                         board.draw()
                         board.select(index[0], index[1])
@@ -147,9 +147,11 @@ def main():
                             cell.y += 12
 
                         # Set the selected flag and draw the cell
-                        cell.selected = True
                         cell.draw()
+                        print(index)
+                        cell.selected = True
 
+                # This line should be unindented to be at the same level as the if statement above
                 if event.type == pygame.KEYDOWN:
                     if (event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3 or
                             event.key == pygame.K_4 or event.key == pygame.K_5 or event.key == pygame.K_6 or
@@ -158,10 +160,7 @@ def main():
                         # Determine the value pressed (from 1 to 9)
                         value = event.key - pygame.K_1 + 1
 
-                        # Get the mouse position and convert it to board cell indices
-                        position = pygame.mouse.get_pos()
-                        board = Board(780, 780, screen, selected_difficulty)
-                        index = board.click(position[0], position[1])
+                        # You can only type in a selected box
 
                         # Check if the clicked cell is valid
                         if index:
@@ -171,13 +170,14 @@ def main():
                                 sudoku_board[index[0]][index[1]] = value
                                 print(copy_of_sudoku)
                                 print(sudoku_board)
-                            
+
                                 for i in range(Row_length):
                                     for j in range(Row_length):
                                         if sudoku_board[i][j] != 0:
                                             text = font.render(str(sudoku_board[i][j]), True, Black, White)
                                             text_rect = text.get_rect(
-                                                center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
+                                                center=(
+                                                    j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
                                             screen.blit(text, text_rect)
 
                                 pygame.display.flip()
