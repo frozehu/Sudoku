@@ -1,5 +1,5 @@
 import random
-
+#Removed pygame
 # Constants
 Width = 780
 Height = 780
