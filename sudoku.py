@@ -179,6 +179,17 @@ def main():
                             if copy_of_sudoku[index[0]][index[1]] == 0:
                                 # Update the board with the pressed number
                                 guess_board[index[0]][index[1]] = value
+                                sketch_board[index[0]][index[1]] = value
+
+                                for i in range(Row_length):
+                                    for j in range(Row_length):
+                                        if sketch_board[i][j] in (1, 2, 3, 4, 5, 6, 7, 8, 9):
+                                            text = font.render(str(sketch_board[i][j]), True, (150,150,150), White)
+                                            text_rect = text.get_rect(
+                                            center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
+                                            screen.blit(text, text_rect)
+                                enter_board[index[0]][index[1]] = 0
+                                sketch_board[index[0]][index[1]] = 0
 
 
                     # Check if return key is pressed, only add numbers to Sudoku Array if it has
@@ -186,7 +197,7 @@ def main():
                         if guess_board[index[0]][index[1]] in (1, 2, 3, 4, 5, 6, 7, 8, 9):
                             print("ITS WORKING")
                             sudoku_board[index[0]][index[1]] = guess_board[index[0]][index[1]]
-                            text_color = Black
+                            
                             return_key_pressed = True
                             if sudoku_board == completed_board:
                                 win = True
@@ -196,39 +207,46 @@ def main():
                             print("Not Changing Board")
 
                         # Print board states
-                        print("Copy of Sudoku")
-                        for items in copy_of_sudoku:
-                            print(items)
+                    print("Only entered Values")
+                    for items in enter_board:
+                        print(items)
 
-                        print("Guess Board")
-                        for items in guess_board:
-                            print(items)
+                    print("Only Sketched Values")
+                    for items in sketch_board:
+                        print(items)
 
-                        print("Sudoku Board")
-                        for items in sudoku_board:
-                            print(items)
+                        #print("Copy of Sudoku")
+                        #for items in copy_of_sudoku:
+                        #    print(items)
 
-                        print("Completed Board")
-                        for items in completed_board:
-                            print(items)
+                        #print("Guess Board")
+                        #for items in guess_board:
+                        #    print(items)
 
-                        print("Guess Board Values In Cells:", guess_board[index[0]][index[1]])
+                        #print("Sudoku Board")
+                        #for items in sudoku_board:
+                        #    print(items)
 
-                        # Render the board
-                    # Render the board
-                    for i in range(Row_length):
-                        for j in range(Row_length):
-                            if guess_board[i][j] in (1, 2, 3, 4, 5, 6, 7, 8, 9):
-                                if copy_of_sudoku[i][j] == 0:  # Check if it's an empty cell
-                                    text_color = (150, 150, 150)  # Change color for user input
-                                else:
-                                    text_color = Black  # Keep original numbers black
-                                text = font.render(str(guess_board[i][j]), True, text_color, White)
-                                text_rect = text.get_rect(
-                                    center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
-                                screen.blit(text, text_rect)
+                        #print("Completed Board")
+                        #for items in completed_board:
+                        #    print(items)
+
+                        #print("Guess Board Values In Cells:", guess_board[index[0]][index[1]])
 
                     pygame.display.flip()
+
+                    if return_key_pressed:
+                        enter_board[index[0]][index[1]] = value
+                        for i in range(Row_length):
+                            for j in range(Row_length):
+                                if enter_board[i][j] in (1, 2, 3, 4, 5, 6, 7, 8, 9):
+                                    text = font.render(str(enter_board[i][j]), True, Black, White)
+                                    text_rect = text.get_rect(
+                                    center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
+                                    screen.blit(text, text_rect)
+
+                        sketch_board[index[0]][index[1]] = 0
+                        enter_board[index[0]][index[1]] = 0
 
             # Mouse Button event for Easy Medium and Hard Modes
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -242,6 +260,8 @@ def main():
 
                         sudoku_generator = SudokuGenerator()
                         sudoku_generator.Removed_cells = 30
+                        enter_board = copy.deepcopy(sudoku_generator.get_board())
+                        sketch_board = copy.deepcopy(sudoku_generator.get_board())
                         sudoku_generator.fill_values()
                         completed_board = copy.deepcopy(sudoku_generator.get_board())
                         sudoku_generator.remove_cells()
@@ -275,6 +295,8 @@ def main():
 
                         sudoku_generator = SudokuGenerator()
                         sudoku_generator.Removed_cells = 40
+                        enter_board = copy.deepcopy(sudoku_generator.get_board())
+                        sketch_board = copy.deepcopy(sudoku_generator.get_board())
                         sudoku_generator.fill_values()
                         completed_board = copy.deepcopy(sudoku_generator.get_board())
                         sudoku_generator.remove_cells()
@@ -307,6 +329,8 @@ def main():
 
                         sudoku_generator = SudokuGenerator()
                         sudoku_generator.Removed_cells = 50
+                        enter_board = copy.deepcopy(sudoku_generator.get_board())
+                        sketch_board = copy.deepcopy(sudoku_generator.get_board())
                         sudoku_generator.fill_values()
                         completed_board = copy.deepcopy(sudoku_generator.get_board())
                         sudoku_generator.remove_cells()
@@ -351,13 +375,13 @@ def main():
                             for j in range(0, 9):
                                 guess_board[i][j] = copy_of_sudoku[i][j]
                                 sudoku_board[i][j] = copy_of_sudoku[i][j]
+                                sketch_board[i][j] = copy_of_sudoku[i][j]
+                                enter_board[i][j] = copy_of_sudoku[i][j]
 
                         pygame.display.flip()
                         pygame.time.Clock().tick(60)
-                            # Reset button clicked
-                        # Implement code to reset the board
-                        # ...
-
+                           
+                        # Reset button clicked
                     elif restartrect.collidepoint(event.pos):
                         # Restart button clicked
                         # Reset game_started flag and any other necessary variables
@@ -373,6 +397,9 @@ def main():
 
                 if win:
                     screen.fill(White)
+                    bg = pygame.image.load("sudoimage.jpg")
+                    bg = pygame.transform.scale(bg, (780, 880))
+                    screen.blit(bg, (0, 0))
                     screen.blit(win_text, win_rect)
                     pygame.draw.rect(screen, (255, 102, 0), exitrect)
                     screen.blit(exit_, exitrect)
@@ -387,6 +414,9 @@ def main():
                                 sys.exit()
                 elif lose:
                     screen.fill(White)
+                    bg = pygame.image.load("sudoimage.jpg")
+                    bg = pygame.transform.scale(bg, (780, 880))
+                    screen.blit(bg, (0, 0))
                     screen.blit(lose_text, lose_rect)
                     pygame.draw.rect(screen, (255, 102, 0), exitrect)
                     screen.blit(exit_, exitrect)
