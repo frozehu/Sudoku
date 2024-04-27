@@ -12,7 +12,9 @@ Fps = 60
 class SudokuGenerator:
     Row_length = 9
     Removed_cells = 30
-    def __init__(self):
+    def __init__(self, size, removed):
+        self.size = size
+        self.removed = removed
         self.board = [[0] * Row_length for _ in range(Row_length)]
 
     def get_board(self):

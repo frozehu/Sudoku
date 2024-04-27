@@ -259,7 +259,7 @@ def main():
                             selected_difficulty = difficulty_levels[i]
                         game_started = True
 
-                        sudoku_generator = SudokuGenerator()
+                        sudoku_generator = SudokuGenerator(9, 30)
                         sudoku_generator.Removed_cells = 30
                         enter_board = copy.deepcopy(sudoku_generator.get_board())
                         sketch_board = copy.deepcopy(sudoku_generator.get_board())
@@ -294,7 +294,7 @@ def main():
                             selected_difficulty = difficulty_levels[i]
                         game_started = True
 
-                        sudoku_generator = SudokuGenerator()
+                        sudoku_generator = SudokuGenerator(9, 40)
                         sudoku_generator.Removed_cells = 40
                         enter_board = copy.deepcopy(sudoku_generator.get_board())
                         sketch_board = copy.deepcopy(sudoku_generator.get_board())
@@ -328,7 +328,7 @@ def main():
                             selected_difficulty = difficulty_levels[i]
                         game_started = True
 
-                        sudoku_generator = SudokuGenerator()
+                        sudoku_generator = SudokuGenerator(9, 50)
                         sudoku_generator.Removed_cells = 50
                         enter_board = copy.deepcopy(sudoku_generator.get_board())
                         sketch_board = copy.deepcopy(sudoku_generator.get_board())
