@@ -92,7 +92,7 @@ class SudokuGenerator:
                 cells_to_remove -= 1
 
 def generate_sudoku(size, removed):
-    sudoku_generator = SudokuGenerator()
+    sudoku_generator = SudokuGenerator(9, 30)
     sudoku_generator.Row_length = size
     sudoku_generator.Removed_cells = removed
     sudoku_generator.fill_values()
