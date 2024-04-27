@@ -179,7 +179,7 @@ def main():
                             if copy_of_sudoku[index[0]][index[1]] == 0:
                                 # Update the board with the pressed number
                                 guess_board[index[0]][index[1]] = value
-                                sketch_board[index[0]][index[1]] = value
+                                sketch_board[index[0]][index[1]] = guess_board[index[0]][index[1]]
 
                                 for i in range(Row_length):
                                     for j in range(Row_length):
@@ -188,16 +188,15 @@ def main():
                                             text_rect = text.get_rect(
                                             center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
                                             screen.blit(text, text_rect)
-                                enter_board[index[0]][index[1]] = 0
-                                sketch_board[index[0]][index[1]] = 0
 
+                                            pygame.display.flip()
 
                     # Check if return key is pressed, only add numbers to Sudoku Array if it has
                     elif event.key == pygame.K_RETURN:
                         if guess_board[index[0]][index[1]] in (1, 2, 3, 4, 5, 6, 7, 8, 9):
                             print("ITS WORKING")
                             sudoku_board[index[0]][index[1]] = guess_board[index[0]][index[1]]
-                            
+                            enter_board[index[0]][index[1]] = sketch_board[index[0]][index[1]]
                             return_key_pressed = True
                             if sudoku_board == completed_board:
                                 win = True
@@ -215,28 +214,27 @@ def main():
                     for items in sketch_board:
                         print(items)
 
-                        #print("Copy of Sudoku")
-                        #for items in copy_of_sudoku:
-                        #    print(items)
+                        print("Copy of Sudoku")
+                        for items in copy_of_sudoku:
+                            print(items)
 
-                        #print("Guess Board")
-                        #for items in guess_board:
-                        #    print(items)
+                        print("Guess Board")
+                        for items in guess_board:
+                            print(items)
 
-                        #print("Sudoku Board")
-                        #for items in sudoku_board:
-                        #    print(items)
+                        print("Sudoku Board")
+                        for items in sudoku_board:
+                            print(items)
 
-                        #print("Completed Board")
-                        #for items in completed_board:
-                        #    print(items)
+                        print("Completed Board")
+                        for items in completed_board:
+                            print(items)
 
-                        #print("Guess Board Values In Cells:", guess_board[index[0]][index[1]])
+                        print("Guess Board Values In Cells:", guess_board[index[0]][index[1]])
 
-                    pygame.display.flip()
+
 
                     if return_key_pressed:
-                        enter_board[index[0]][index[1]] = value
                         for i in range(Row_length):
                             for j in range(Row_length):
                                 if enter_board[i][j] in (1, 2, 3, 4, 5, 6, 7, 8, 9):
@@ -244,9 +242,11 @@ def main():
                                     text_rect = text.get_rect(
                                     center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
                                     screen.blit(text, text_rect)
+                                    sketch_board[index[0]][index[1]] = 0
 
-                        sketch_board[index[0]][index[1]] = 0
-                        enter_board[index[0]][index[1]] = 0
+
+
+                        pygame.display.flip()
 
             # Mouse Button event for Easy Medium and Hard Modes
             if event.type == pygame.MOUSEBUTTONDOWN:
