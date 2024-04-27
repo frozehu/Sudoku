@@ -376,6 +376,8 @@ def main():
                             for j in range(0, 9):
                                 guess_board[i][j] = copy_of_sudoku[i][j]
                                 sudoku_board[i][j] = copy_of_sudoku[i][j]
+                                sketch_board[i][j] = 0
+                                enter_board[i][j] = 0
 
                         pygame.display.flip()
                         pygame.time.Clock().tick(60)
