@@ -10,6 +10,7 @@ Black = (0, 0, 0)
 Gray = (200, 200, 200)
 Fps = 60
 class SudokuGenerator:
+    Row_length = 9
     Removed_cells = 30
     def __init__(self):
         self.board = [[0] * Row_length for _ in range(Row_length)]
@@ -87,3 +88,14 @@ class SudokuGenerator:
             if self.board[row][col] != 0:
                 self.board[row][col] = 0
                 cells_to_remove -= 1
+
+def generate_sudoku(size, removed):
+    sudoku_generator = SudokuGenerator()
+    sudoku_generator.Row_length = size
+    sudoku_generator.Removed_cells = removed
+    sudoku_generator.fill_values()
+    sudoku_generator.remove_cells()
+    return sudoku_generator.get_board()
+
+'''for items in (generate_sudoku(9, 30)):
+    print(items)'''
