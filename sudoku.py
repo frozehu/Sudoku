@@ -243,6 +243,7 @@ def main():
                                     center=(j * Cell_size + Cell_size // 2, i * Cell_size + Cell_size // 2))
                                     screen.blit(text, text_rect)
                                     sketch_board[index[0]][index[1]] = 0
+                                    enter_board[index[0]][index[1]] = 0
 
 
 
@@ -375,8 +376,6 @@ def main():
                             for j in range(0, 9):
                                 guess_board[i][j] = copy_of_sudoku[i][j]
                                 sudoku_board[i][j] = copy_of_sudoku[i][j]
-                                sketch_board[i][j] = copy_of_sudoku[i][j]
-                                enter_board[i][j] = copy_of_sudoku[i][j]
 
                         pygame.display.flip()
                         pygame.time.Clock().tick(60)
