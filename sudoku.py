@@ -1,6 +1,6 @@
 import pygame, sys
 from board import *
-from SudokuGenerator import *
+from sudoku_generator import *
 import copy
 pygame.init()
 screen = pygame.display.set_mode((780, 880))
