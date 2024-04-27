@@ -280,6 +280,7 @@ def main():
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
+                        guess_board = copy.deepcopy(sudoku_board)
 
                         background(selected_difficulty)
 
@@ -311,6 +312,7 @@ def main():
                         sudoku_generator.remove_cells()
                         sudoku_board = sudoku_generator.get_board()
                         copy_of_sudoku = copy.deepcopy(sudoku_board)
+                        guess_board = copy.deepcopy(sudoku_board)
 
                         background(selected_difficulty)
 
