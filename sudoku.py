@@ -89,6 +89,7 @@ def main():
     global difficulty_selected, game_started, selected_difficulty
     running = True
     win = False
+    lose = False
     screen.fill(White)
     start_screen()
     difficulty_rects = start_screen()
@@ -111,6 +112,10 @@ def main():
     winscreenfont = pygame.font.Font(None, 50)
     win_text = winscreenfont.render("Game Won :)", True, Black)
     win_rect = win_text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+
+    losescreenfont = pygame.font.Font(None, 50)
+    lose_text = losescreenfont.render("Game Lost :(", True, Black)
+    lose_rect = lose_text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
 
     while running:
         # Main Loop
@@ -185,6 +190,8 @@ def main():
                             return_key_pressed = True
                             if sudoku_board == completed_board:
                                 win = True
+                            elif all(all(cell != 0 for cell in row) for row in sudoku_board):
+                                lose = True
                         else:
                             print("Not Changing Board")
 
@@ -211,10 +218,6 @@ def main():
                     # Render the board
                     for i in range(Row_length):
                         for j in range(Row_length):
-                            if return_key_pressed:  # Check if return key has been pressed
-                                text_color = Black
-                            else:
-                                text_color = (150, 150, 150)  # Initially set user input to grey
                             if guess_board[i][j] in (1, 2, 3, 4, 5, 6, 7, 8, 9):
                                 if copy_of_sudoku[i][j] == 0:  # Check if it's an empty cell
                                     text_color = (150, 150, 150)  # Change color for user input
@@ -344,6 +347,7 @@ def main():
                                     screen.blit(text, text_rect)
                         for i in range(0, 9):
                             for j in range(0, 9):
+                                guess_board[i][j] = copy_of_sudoku[i][j]
                                 sudoku_board[i][j] = copy_of_sudoku[i][j]
 
                         pygame.display.flip()
@@ -379,6 +383,20 @@ def main():
                             if exitrect.collidepoint(event.pos):
                                 pygame.quit()
                                 sys.exit()
+                elif lose:
+                    screen.fill(White)
+                    screen.blit(lose_text, lose_rect)
+                    pygame.draw.rect(screen, (255, 102, 0), exitrect)
+                    screen.blit(exit_, exitrect)
+                    pygame.display.flip()
+
+                    for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                running = False
+                            if event.type == pygame.MOUSEBUTTONDOWN:
+                                if exitrect.collidepoint(event.pos):
+                                    pygame.quit()
+                                    sys.exit()
 
         pygame.display.flip()
 
