@@ -4,6 +4,7 @@ import random
 Width = 780
 Height = 780
 row_length = 9
+box_length = 3
 Cell_size = Width // row_length
 White = (255, 255, 255)
 Black = (0, 0, 0)
@@ -11,6 +12,7 @@ Gray = (200, 200, 200)
 Fps = 60
 class SudokuGenerator:
     row_length = 9
+    box_length = 3
     Removed_cells = 30
     def __init__(self, size, removed):
         self.size = size
