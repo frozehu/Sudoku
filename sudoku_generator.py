@@ -3,19 +3,19 @@ import random
 # Constants
 Width = 780
 Height = 780
-Row_length = 9
-Cell_size = Width // Row_length
+row_length = 9
+Cell_size = Width // row_length
 White = (255, 255, 255)
 Black = (0, 0, 0)
 Gray = (200, 200, 200)
 Fps = 60
 class SudokuGenerator:
-    Row_length = 9
+    row_length = 9
     Removed_cells = 30
     def __init__(self, size, removed):
         self.size = size
         self.removed = removed
-        self.board = [[0] * Row_length for _ in range(Row_length)]
+        self.board = [[0] * row_length for _ in range(row_length)]
 
     def get_board(self):
         return self.board
@@ -49,26 +49,26 @@ class SudokuGenerator:
                 self.board[row_start + i][col_start + j] = nums.pop()
 
     def fill_diagonal(self):
-        for i in range(0, Row_length, 3):
+        for i in range(0, row_length, 3):
             self.fill_box(i, i)
 
     def fill_remaining(self, row, col):
-        if col >= Row_length and row < Row_length - 1:
+        if col >= row_length and row < row_length - 1:
             row += 1
             col = 0
-        if row >= Row_length and col >= Row_length:
+        if row >= row_length and col >= row_length:
             return True
         if row < 3:
             if col < 3:
                 col = 3
-        elif row < Row_length - 3:
+        elif row < row_length - 3:
             if col == int(row / 3) * 3:
                 col += 3
         else:
-            if col == Row_length - 3:
+            if col == row_length - 3:
                 row += 1
                 col = 0
-                if row >= Row_length:
+                if row >= row_length:
                     return True
         for num in range(1, 10):
             if self.is_valid(row, col, num):
@@ -85,15 +85,15 @@ class SudokuGenerator:
     def remove_cells(self):
         cells_to_remove = self.Removed_cells
         while cells_to_remove > 0:
-            row = random.randint(0, Row_length - 1)
-            col = random.randint(0, Row_length - 1)
+            row = random.randint(0, row_length - 1)
+            col = random.randint(0, row_length - 1)
             if self.board[row][col] != 0:
                 self.board[row][col] = 0
                 cells_to_remove -= 1
 
 def generate_sudoku(size, removed):
     sudoku_generator = SudokuGenerator(9, 30)
-    sudoku_generator.Row_length = size
+    sudoku_generator.row_length = size
     sudoku_generator.Removed_cells = removed
     sudoku_generator.fill_values()
     sudoku_generator.remove_cells()

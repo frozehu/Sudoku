@@ -181,8 +181,8 @@ def main():
                                 guess_board[index[0]][index[1]] = value
                                 sketch_board[index[0]][index[1]] = guess_board[index[0]][index[1]]
 
-                                for i in range(Row_length):
-                                    for j in range(Row_length):
+                                for i in range(row_length):
+                                    for j in range(row_length):
                                         if sketch_board[i][j] in (1, 2, 3, 4, 5, 6, 7, 8, 9):
                                             text = font.render(str(sketch_board[i][j]), True, (150,150,150), White)
                                             text_rect = text.get_rect(
@@ -235,8 +235,8 @@ def main():
 
 
                     if return_key_pressed:
-                        for i in range(Row_length):
-                            for j in range(Row_length):
+                        for i in range(row_length):
+                            for j in range(row_length):
                                 if enter_board[i][j] in (1, 2, 3, 4, 5, 6, 7, 8, 9):
                                     text = font.render(str(enter_board[i][j]), True, Black, White)
                                     text_rect = text.get_rect(
@@ -274,8 +274,8 @@ def main():
                         background(selected_difficulty)
 
                         font = pygame.font.Font(None, 36)
-                        for i in range(Row_length):
-                            for j in range(Row_length):
+                        for i in range(row_length):
+                            for j in range(row_length):
                                 if sudoku_board[i][j] != 0:
                                     text = font.render(str(sudoku_board[i][j]), True, Black)
                                     text_rect = text.get_rect(
@@ -308,8 +308,8 @@ def main():
                         background(selected_difficulty)
 
                         font = pygame.font.Font(None, 36)
-                        for i in range(Row_length):
-                            for j in range(Row_length):
+                        for i in range(row_length):
+                            for j in range(row_length):
                                 if sudoku_board[i][j] != 0:
                                     text = font.render(str(sudoku_board[i][j]), True, Black)
                                     text_rect = text.get_rect(
@@ -342,8 +342,8 @@ def main():
                         background(selected_difficulty)
 
                         font = pygame.font.Font(None, 36)
-                        for i in range(Row_length):
-                            for j in range(Row_length):
+                        for i in range(row_length):
+                            for j in range(row_length):
                                 if sudoku_board[i][j] != 0:
                                     text = font.render(str(sudoku_board[i][j]), True, Black)
                                     text_rect = text.get_rect(
@@ -365,8 +365,8 @@ def main():
                         background(selected_difficulty)
 
                         font = pygame.font.Font(None, 36)
-                        for i in range(Row_length):
-                            for j in range(Row_length):
+                        for i in range(row_length):
+                            for j in range(row_length):
                                 if copy_of_sudoku[i][j] != 0:
                                     text = font.render(str(copy_of_sudoku[i][j]), True, Black)
                                     text_rect = text.get_rect(
